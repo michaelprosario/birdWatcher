@@ -55,7 +55,7 @@ async function processJsonMessage(message) {
     const response = await objectDetection.predict(json.fileName);
     console.log(response)
 
-    const { error } = await supabase.from('watch_log').insert({ file_name: json.fileName, json: JSON.stringify(response) })    
+    const { error } = await supabase.from('watch_log').insert({ file_name: json.fileName, json: response })    
     if(error)
     {
       console.log("error object defined");
