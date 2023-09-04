@@ -1,5 +1,4 @@
 const tf = require("@tensorflow/tfjs-node")
-
 const cocosSSd = require("@tensorflow-models/coco-ssd")
 const { createCanvas, loadImage } = require('canvas');
 
