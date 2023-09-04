@@ -4,7 +4,7 @@ import pika
 import json
 
 # Set the time interval in seconds
-interval = 20  # 5 minutes = 300 seconds
+interval = 60*3  # 5 minutes = 300 seconds
 
 # Initialize the webcam
 cap = cv2.VideoCapture(0)  # 0 represents the default camera (you can change it to a specific camera index if you have multiple cameras)

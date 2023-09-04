@@ -2,6 +2,11 @@ const tf = require("@tensorflow/tfjs-node")
 const amqp = require('amqplib');
 const cocosSSd = require("@tensorflow-models/coco-ssd")
 const { createCanvas, loadImage } = require('canvas');
+const { createClient } = require('@supabase/supabase-js');
+
+const supabaseUrl = 'https://kpxlbckxgryibvhpenyk.supabase.co'
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtweGxiY2t4Z3J5aWJ2aHBlbnlrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY5Mzc5NTY1MywiZXhwIjoyMDA5MzcxNjUzfQ.3CXBZEQ7tdjW4blqXmQ6Koesapg9VF8bdubyMvGqHEw";
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 class ObjectDetection 
 {
@@ -49,6 +54,15 @@ async function processJsonMessage(message) {
 
     const response = await objectDetection.predict(json.fileName);
     console.log(response)
+
+    const { error } = await supabase.from('watch_log').insert({ file_name: json.fileName, json: JSON.stringify(response) })    
+    if(error)
+    {
+      console.log("error object defined");
+      console.log(error);
+    }
+
+
   } catch (error) {
     console.error('Error processing JSON message:', error.message);
   }
