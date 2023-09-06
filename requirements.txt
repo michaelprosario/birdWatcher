@@ -1,2 +1,3 @@
 pika
 opencv-python
+azure-storage-blob
