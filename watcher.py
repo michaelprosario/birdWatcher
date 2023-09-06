@@ -6,15 +6,15 @@ from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
 
 # Setup blob storage in Azure
 
-account_name = "birdsblobstorage"
-account_key = "b3fOxvj6fclOlzqK9VsOpcWIDQc4d0R9ila+DVs306OgzhJq/1JSRH7/VklLrh9Go5NY9J/Zxxrx+ASt9V+VDA=="
+connect_str = "DefaultEndpointsProtocol=https;AccountName=birdsblobstorage;AccountKey=b3fOxvj6fclOlzqK9VsOpcWIDQc4d0R9ila+DVs306OgzhJq/1JSRH7/VklLrh9Go5NY9J/Zxxrx+ASt9V+VDA==;EndpointSuffix=core.windows.net"
 container_name = "pictures_blob_storage"
 
-blob_service_client = BlobServiceClient(account_url=f"https://{account_name}.blob.core.windows.net", credential=account_key)
+blob_service_client = BlobServiceClient.from_connection_string(connect_str)
+
 container_client = blob_service_client.get_container_client(container_name)
 
 # Set the time interval in seconds
-interval = 60*3  # 5 minutes = 300 seconds
+interval = 20  # 5 minutes = 300 seconds
 
 # Initialize the webcam
 cap = cv2.VideoCapture(0)  # 0 represents the default camera (you can change it to a specific camera index if you have multiple cameras)
