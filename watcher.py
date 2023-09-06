@@ -3,18 +3,18 @@ import time
 import pika
 import json
 import os
-from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+from azure.storage.blob import BlobServiceClient
 
 # Setup blob storage in Azure
+# reference - https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-python?tabs=managed-identity%2Croles-azure-portal%2Csign-in-azure-cli
 container_name = "picturesblobstorage"
 def setup_blob_storage():
-    connect_str = "DefaultEndpointsProtocol=https;AccountName=birdsblobstorage;AccountKey=b3fOxvj6fclOlzqK9VsOpcWIDQc4d0R9ila+DVs306OgzhJq/1JSRH7/VklLrh9Go5NY9J/Zxxrx+ASt9V+VDA==;EndpointSuffix=core.windows.net"
-    
+    connect_str = "DefaultEndpointsProtocol=https;AccountName=birdsblobstorage;AccountKey=b3fOxvj6fclOlzqK9VsOpcWIDQc4d0R9ila+DVs306OgzhJq/1JSRH7/VklLrh9Go5NY9J/Zxxrx+ASt9V+VDA==;EndpointSuffix=core.windows.net"    
     blob_service_client = BlobServiceClient.from_connection_string(connect_str)
     container_client = blob_service_client.get_container_client(container_name)
     return container_client
 
-
+# reference - https://www.rabbitmq.com/tutorials/tutorial-one-python.html
 def setup_rabbit_message_queue():
     # RabbitMQ connection parameters
     rabbitmq_host = 'localhost'
@@ -46,7 +46,8 @@ container_client = setup_blob_storage()
 interval = 60  # every min
 
 # Initialize the webcam
-cap = cv2.VideoCapture(0)  # 0 represents the default camera (you can change it to a specific camera index if you have multiple cameras)
+cap = cv2.VideoCapture(0)  
+# 0 represents the default camera (you can change it to a specific camera index if you have multiple cameras)
 
 # Check if the webcam is opened successfully
 if not cap.isOpened():
