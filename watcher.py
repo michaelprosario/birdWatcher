@@ -2,6 +2,16 @@ import cv2
 import time
 import pika
 import json
+from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+
+# Setup blob storage in Azure
+
+account_name = "birdsblobstorage"
+account_key = "b3fOxvj6fclOlzqK9VsOpcWIDQc4d0R9ila+DVs306OgzhJq/1JSRH7/VklLrh9Go5NY9J/Zxxrx+ASt9V+VDA=="
+container_name = "pictures_blob_storage"
+
+blob_service_client = BlobServiceClient(account_url=f"https://{account_name}.blob.core.windows.net", credential=account_key)
+container_client = blob_service_client.get_container_client(container_name)
 
 # Set the time interval in seconds
 interval = 20  # 5 minutes = 300 seconds
@@ -46,6 +56,12 @@ while True:
 
     print(f"Image captured and saved as {filename}")
 
+    local_file_path = filename
+    blob_name = filename
+
+    with open(local_file_path, "rb") as data:
+        container_client.upload_blob(name=blob_name, data=data)
+
     # Prepare a JSON message
     message = {
         'fileName': filename,
@@ -57,6 +73,8 @@ while True:
     channel.basic_publish(exchange='', routing_key=queue_name, body=message_json)
 
     print(f"Message sent to RabbitMQ: {message_json}")
+
+    os.remove(filename)
 
     # Wait for the specified interval
     time.sleep(interval)
