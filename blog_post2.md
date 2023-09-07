@@ -137,3 +137,5 @@ In our final blog post, we'll use NodeJs to load the COCO-SSD model into memory 
 You can check out the code solution in progress at the following github repository.
 
 [https://github.com/michaelprosario/birdWatcher](https://github.com/michaelprosario/birdWatcher)
+
+Check out object-detection.js to see how how object detection will work.   Check out watcher.py for a completed version of this tutorial.
