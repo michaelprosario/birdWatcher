@@ -1,11 +1,14 @@
 
 
-In this series, we will continue building a small system to capture pictures of my back yard and detect if we see pictures.   In this post, we will focus on the problem of taking pictures every minute or so.   To review the system overview, check out my previous blog post here.
+In this series, we will continue building a small system to capture pictures of my back yard and detect if we see birds.   In this post, we will focus on the problem of taking pictures every minute or so.   For fun, I decided to build this part in Python.  To review the system overview, check out my previous blog post here.
 
 The solution for the watcher involves the following major elements and concepts.
 - Setup a connection to Azure blob storage.   To keep things simple, [Azure blob storage](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-python?tabs=managed-identity,roles-azure-portal,sign-in-azure-cli) enables you to securely store files in Microsoft Azure cloud at low cost.   
 - Set the time interval for taking pictures
-- Setup connection to [message queue system](https://www.rabbitmq.com/tutorials/tutorial-one-python.html).   Please keep in mind that the watch program needs to send a message to another program that will analyze the image content.
+- Setup connection to [message queue system](https://www.rabbitmq.com/tutorials/tutorial-one-python.html).   The watch program needs to send a message to an analysis program that will analyze the image content.  Please keep in mind that RabbitMQ is simply "email for computer programs." It's a way for programs to message each other to do work. I will be running the watcher program on a pretty low-complexity Raspberry PI 2. In my case, I wanted to off-load the image analysis to another computer system with a bit more horse power. In future work, we might move the analysis program to a cloud function. That's a topic for a future post.
+
+
+Here's some pseudo code.
 - Setup the program to take pictures
 - Loop
 	- Take a picture
@@ -13,7 +16,7 @@ The solution for the watcher involves the following major elements and concepts.
 	- Upload the picture to Azure blob storage
 	- Signal the analysis program to review the picture
 	- Delete the local copy of the picture
-	- Wait until we need to take a picture - 
+	- Wait until we need to take a picture 
 
 ## Setting the stage
 
@@ -77,6 +80,10 @@ print(f"Message sent to RabbitMQ: {message_json}")
 In the previous code sketches, we have not implemented several key functions.  Let's fill in those functions now.  You'll need to position these functions near the top of your script.
 
 ### setup_blob_storage
+
+Please use [this link](https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-python?tabs=managed-identity%2Croles-azure-portal%2Csign-in-azure-cli) to learn about Azure Blob storage, account configuration, and Python code patterns.
+
+
 ``` python
 container_name  =  "picturesblobstorage"
 def  setup_blob_storage():
@@ -86,6 +93,8 @@ def  setup_blob_storage():
 	return  container_client
 ```
 ### setup_rabbit_message_queue
+
+Setup connection to [message queue system](https://www.rabbitmq.com/tutorials/tutorial-one-python.html). 
 
 ``` python
 def  setup_rabbit_message_queue():
@@ -104,9 +113,10 @@ def  setup_rabbit_message_queue():
 	channel.queue_declare(queue=queue_name)
 	return  queue_name,connection,channel
 ```
-To keep this blog post brief, I will not be able to jump into all the details regarding setting up RabbitMQ on your local system.   Please refer to this 10-minute video for details on setting up this sub-system.   Please keep in mind that RabbitMQ is simply "email for computer programs."   It's a way for programs to message each other to do work.    I will be running the watcher program on a pretty low-complexity raspberry PI.  In my case, I wanted to off-load the image analysis to another computer system.   In future work, we might move the analysis program to a cloud function.   That's a topic for a future post.
+To keep this blog post brief, I will not be able to jump into all the details regarding setting up RabbitMQ on your local system.   Please refer to this 10-minute video for details on setting up this sub-system.   
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/-0g-1ckQgBo?si=OIrNkq7TY-EZ2HJo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
 This blog post does a great job of setting up RabbitMQ with "docker-compose."   It's a light weight way to setup stuff in your environment. 
 
 [Easy RabbitMQ Deployment with Docker Compose (christian-schou.dk)](https://blog.christian-schou.dk/rabbitmq-deployment-with-docker-compose/)
@@ -121,3 +131,9 @@ def  store_picture_on_disk(frame):
 	cv2.imwrite(filename, frame)
 	return  timestamp,filename
 ```
+
+In our final blog post, we'll use NodeJs to load the COCO-SSD model into memory and let it comment upon the image in question.
+
+You can check out the code solution in progress at the following github repository.
+
+[https://github.com/michaelprosario/birdWatcher](https://github.com/michaelprosario/birdWatcher)
