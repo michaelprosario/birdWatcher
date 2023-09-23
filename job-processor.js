@@ -37,7 +37,6 @@ async function downloadPictureFromBlobStorage(fileName)
   }  
 }
 
-
 async function deletePictureFromBlobStorage(fileName)
 {  
   try 
@@ -52,8 +51,6 @@ async function deletePictureFromBlobStorage(fileName)
     return false;
   }  
 }
-
-
 
 class ObjectDetection 
 {
@@ -83,7 +80,6 @@ class ObjectDetection
         return canvas;
     }
 }
-
 
 // RabbitMQ connection URL
 const rabbitmqUrl = 'amqp://localhost';
