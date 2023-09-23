@@ -7,13 +7,11 @@ const { BlobServiceClient } = require("@azure/storage-blob");
 const { v1: uuidv1 } = require("uuid");
 var fs = require('fs');
 
-const supabaseUrl = 'https://kpxlbckxgryibvhpenyk.supabase.co'
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtweGxiY2t4Z3J5aWJ2aHBlbnlrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY5Mzc5NTY1MywiZXhwIjoyMDA5MzcxNjUzfQ.3CXBZEQ7tdjW4blqXmQ6Koesapg9VF8bdubyMvGqHEw";
+const supabaseUrl = process.env.SUPABASEURL;
+const supabaseKey = process.env.SUPABASEKEY;
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-
-const AZURE_BLOB_STORAGE_CONNECTION_STRING = 
-  process.env.AZURE_BLOB_STORAGE_CONNECTION_STRING;
+const AZURE_BLOB_STORAGE_CONNECTION_STRING = process.env.AZURE_BLOB_STORAGE_CONNECTION_STRING;
 
 if (!AZURE_BLOB_STORAGE_CONNECTION_STRING) 
 {

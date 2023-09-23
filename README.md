@@ -15,14 +15,14 @@ docker-compose up -d
 - install Python 3
 ``` bash
 cd birdWatcher
-export AZURE_BLOB_STORAGE_CONNECTION_STRING="DefaultEndpointsProtocol=https;AccountName=birdsblobstorage;AccountKey=b3fOxvj6fclOlzqK9VsOpcWIDQc4d0R9ila+DVs306OgzhJq/1JSRH7/VklLrh9Go5NY9J/Zxxrx+ASt9V+VDA==;EndpointSuffix=core.windows.net"
+export AZURE_BLOB_STORAGE_CONNECTION_STRING="fix me"
 pip install -r requirements.txt
 python watcher.py
 ```
 
 ``` powershell
 cd birdWatcher
-$env:AZURE_BLOB_STORAGE_CONNECTION_STRING="DefaultEndpointsProtocol=https;AccountName=birdsblobstorage;AccountKey=b3fOxvj6fclOlzqK9VsOpcWIDQc4d0R9ila+DVs306OgzhJq/1JSRH7/VklLrh9Go5NY9J/Zxxrx+ASt9V+VDA==;EndpointSuffix=core.windows.net"
+$env:AZURE_BLOB_STORAGE_CONNECTION_STRING="fix me"
 pip install -r requirements.txt
 python watcher.py
 ```
@@ -32,7 +32,9 @@ python watcher.py
 - Install npm
 ``` bash
 cd birdWatcher
-export AZURE_BLOB_STORAGE_CONNECTION_STRING="DefaultEndpointsProtocol=https;AccountName=birdsblobstorage;AccountKey=b3fOxvj6fclOlzqK9VsOpcWIDQc4d0R9ila+DVs306OgzhJq/1JSRH7/VklLrh9Go5NY9J/Zxxrx+ASt9V+VDA==;EndpointSuffix=core.windows.net"
+export AZURE_BLOB_STORAGE_CONNECTION_STRING="fix me"
+export SUPABASEURL="fix me"
+export SUPABASEKEY="fix me"
 npm install
 node job-processor.js
 ```
