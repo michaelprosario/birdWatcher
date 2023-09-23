@@ -9,7 +9,7 @@ from azure.storage.blob import BlobServiceClient
 # reference - https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-python?tabs=managed-identity%2Croles-azure-portal%2Csign-in-azure-cli
 container_name = "picturesblobstorage"
 def setup_blob_storage():
-    connect_str = "fix me"    
+    connect_str = os.environ['AZURE_BLOB_STORAGE_CONNECTION_STRING']   
     blob_service_client = BlobServiceClient.from_connection_string(connect_str)
     container_client = blob_service_client.get_container_client(container_name)
     return container_client

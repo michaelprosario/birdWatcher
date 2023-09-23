@@ -1,9 +1,13 @@
 {
   "dependencies": {
+    "@azure/identity": "^3.3.0",
+    "@azure/storage-blob": "^12.16.0",
     "@supabase/supabase-js": "^2.33.1",
     "@tensorflow-models/coco-ssd": "^2.2.3",
     "@tensorflow/tfjs-node": "^4.10.0",
     "amqplib": "^0.10.3",
-    "canvas": "^2.11.2"
+    "canvas": "^2.11.2",
+    "dotenv": "^16.3.1",
+    "uuid": "^9.0.1"
   }
 }
