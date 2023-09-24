@@ -82,7 +82,7 @@ class ObjectDetection
 }
 
 // RabbitMQ connection URL
-const rabbitmqUrl = 'amqp://localhost';
+const rabbitmqUrl = 'amqp://192.168.1.34';
 
 // Queue name to consume messages from
 const queueName = 'review-picture-queue';
@@ -111,8 +111,16 @@ async function processJsonMessage(message) {
         console.log(error);
       }  
 
+      const hasBirdPrediction = response && response.predictions && response.predictions.some(prediction => prediction.class === 'bird');
       deletePictureFromBlobStorage(json.fileName);
-      fs.unlinkSync(json.fileName);
+
+      if(hasBirdPrediction)
+      {
+        console.log("bird found....");
+        console.log(json.fileName);
+      }else{
+        //fs.unlinkSync(json.fileName);
+      }     
 
 
     }else{
